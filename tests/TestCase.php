@@ -5,16 +5,16 @@ namespace VendorName\Skeleton\Tests;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 use VendorName\Skeleton\SkeletonServiceProvider;
+use Illuminate\Support\Facades\View;
+
 
 class TestCase extends Orchestra
 {
     protected function setUp(): void
     {
         parent::setUp();
+        View::addLocation(__DIR__.'/Stubs');
 
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
     }
 
     protected function getPackageProviders($app)
@@ -22,6 +22,16 @@ class TestCase extends Orchestra
         return [
             SkeletonServiceProvider::class,
         ];
+    }
+
+    protected function defineDatabaseMigrations()
+    {
+        //
+    }
+
+    protected function defineRoutes($router)
+    {
+        // $router->get('/', fn () => 'Hello World');
     }
 
     public function getEnvironmentSetUp($app)
